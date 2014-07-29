@@ -109,7 +109,7 @@ public class JSTest {
 
 		ScriptEngineManager engineManager = new ScriptEngineManager();
 		ScriptEngine engine = engineManager.getEngineByName("nashorn");
-		Invocable invocable = (Invocable) engine;
+//		Invocable invocable = (Invocable) engine;
 
 		engine.eval(newBufferedReader(baseSamplePath.resolve("sample.js"), UTF_8));
 
