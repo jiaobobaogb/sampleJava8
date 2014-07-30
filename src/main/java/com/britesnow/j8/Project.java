@@ -52,4 +52,19 @@ public class Project{
 	public String toString() {
 		return "" + name + "(" + client + ")";
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+	    if(o instanceof Project){
+	        Project p = (Project) o;
+	        if(this.getId().equals(p.getId())){
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	@Override
+	public int hashCode() {
+	    return id.hashCode();
+	}
 }
