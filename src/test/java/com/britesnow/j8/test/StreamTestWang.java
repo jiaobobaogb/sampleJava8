@@ -1,9 +1,11 @@
 package com.britesnow.j8.test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,19 +18,21 @@ import com.britesnow.j8.Project;
  * <p></p>
  */
 public class StreamTestWang {
+    
+    static String[][] projectNamesArray = {
+                            { "1", "First Project", "Cisco" },
+                            { "2", "Second Project", "Cisco" },
+                            { "3", "Third Project", "Google" },
+                            { "4", "Fourth Project", "Google" },
+                            { "5", "Fifth Project", "StrongMails" },
+                            { "6", "Sixth Project", "StrongMails" },
+                            { "7", "Seventh Project", "SalesForce" },
+                            { "3", "Third Project", "Google" }
+                    };
 
-	@Test
+//	@Test
 	public void testSimpleStream(){
-        String[][] projectNamesArray = {
-                { "1", "First Project", "Cisco" },
-                { "2", "Second Project", "Cisco" },
-                { "3", "Third Project", "Google" },
-                { "4", "Fourth Project", "Google" },
-                { "5", "Fifth Project", "StrongMails" },
-                { "6", "Sixth Project", "StrongMails" },
-                { "7", "Seventh Project", "SalesForce" },
-                { "3", "Third Project", "Google" }
-        };
+        
 	    
         List<Project> projects = Stream.of(projectNamesArray).map(data -> new Project(data[0], data[1], data[2])).collect(Collectors.toList());
         System.out.println("Init projects:\n" + projects + "\n");
@@ -71,13 +75,55 @@ public class StreamTestWang {
         reduced.ifPresent((r) -> System.out.println("reduced stream: " + r +"\n"));
         
         
-        //Colletors
+	}
+	
+	@Test
+    public void testSimpleColletor(){
+	    //To List
+        List<Project> projects = Stream.of(projectNamesArray).map(data -> new Project(data[0], data[1], data[2])).collect(Collectors.toList());
+        System.out.println("Init projects:\n" + projects + "\n");
         
-        Map<String, Project> resultMap = projects.stream().collect(Collectors.toMap(Project::getId, Function.identity()));
+        //To Map
+        Map<String, Project> resultMap = projects.stream().distinct().collect(Collectors.toMap(Project::getId, Function.identity()));
         System.out.println("Project map:\n" + resultMap + "\n");
+        
+        Map<String, String> stringResultMap = projects.stream().distinct().collect(Collectors.toMap(Project::getId, Project::getName));
+        System.out.println("String map:\n" + stringResultMap + "\n");
+        
+        resultMap = projects.stream().collect(Collectors.toMap(Project::getId,  Function.identity(), (u, v) -> v));
+        System.out.println("Merge map:\n" + resultMap + "\n");
+        
+        Map<String, Project> testMap = new HashMap();
+        testMap.put("8", new Project("8", "Eighth Project", "Cisco"));
+        resultMap = projects.stream().collect(Collectors.toMap(Project::getId,  Function.identity(), (u, v) -> v, () -> {return testMap;}));
+        System.out.println("String map:\n" + resultMap + "\n");
+        
+        Double resultDouble = projects.stream().collect(Collectors.averagingLong(item -> Long.parseLong(item.getId())));
+        System.out.println("average value:\n" + resultDouble + "\n");
+        
+        String resultString = projects.stream().map(item -> item.getName()).collect(Collectors.joining("#"));
+        System.out.println("join value:\n" + resultString + "\n");
+        
+        Optional<Project> resultOptional = projects.stream().collect(Collectors.maxBy((s1, s2) -> s1.getName().length() > s2.getName().length() ? 1 : -1  ));
+        System.out.println("max value:\n" + resultOptional + "\n");
+        
+        resultDouble = projects.stream().collect(Collectors.mapping(Project::getId, Collectors.averagingLong(item -> Long.parseLong((String) item))));
+        System.out.println("average value:\n" + resultDouble + "\n");
+        
+        Map<String, List<Project>> resultProjects = projects.stream().collect(Collectors.groupingBy(Project::getClient));
+        System.out.println("projects group value:\n" + resultProjects + "\n");
+        
+        Map<String, Optional<Project>> stringResultMapOptional = projects.stream().collect(Collectors.groupingBy(Project::getClient, Collectors.maxBy((s1, s2) -> ((Project) s1).getName().length() > ((Project) s2).getName().length() ? 1 : -1 )));
+        System.out.println("projects group max optional project:\n" + stringResultMapOptional + "\n");
+        
+        resultMap = projects.stream().collect(Collectors.groupingBy(Project::getClient, Collectors.collectingAndThen(Collectors.maxBy((s1, s2) -> ((Project) s1).getName().length() > ((Project) s2).getName().length() ? 1 : -1 ), max -> max.get())));
+        System.out.println("projects group max project:\n" + resultMap + "\n");
         
         Set<Project> resultSet = projects.stream().collect(Collectors.toSet());
         System.out.println("Project set:\n" + resultSet + "\n");
+        
+        Set<String> resultTreeSet = projects.stream().map(Project::getName).collect(Collectors.toCollection(TreeSet::new));
+        System.out.println("New Project set:\n" + resultTreeSet + "\n");
         
 	}
 	
