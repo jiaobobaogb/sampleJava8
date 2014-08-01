@@ -1,12 +1,19 @@
 package com.britesnow.j8.test;
 
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeSet;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -77,7 +84,7 @@ public class StreamTestWang {
         
 	}
 	
-	@Test
+//	@Test
     public void testSimpleColletor(){
 	    //To List
         List<Project> projects = Stream.of(projectNamesArray).map(data -> new Project(data[0], data[1], data[2])).collect(Collectors.toList());
@@ -125,6 +132,51 @@ public class StreamTestWang {
         Set<String> resultTreeSet = projects.stream().map(Project::getName).collect(Collectors.toCollection(TreeSet::new));
         System.out.println("New Project set:\n" + resultTreeSet + "\n");
         
+	}
+	
+	@Test
+    public void testCustomColletor(){
+	    List<Project> projects = Stream.of(projectNamesArray).map(data -> new Project(data[0], data[1], data[2])).distinct().collect(Collectors.toList());
+        System.out.println("Init projects:\n" + projects + "\n");
+        
+        //to Stack
+        Stack<Project> projectStacks = projects.stream().collect(Collectors.toCollection(Stack::new));
+        System.out.println("Stack projects:\n" + projectStacks + "\n");
+        
+        projectStacks = projects.parallelStream().collect(new Collector<Project,Stack,Stack<Project>>(){
+
+            @Override
+            public Supplier supplier() {
+                return Stack::new;
+            }
+
+            @Override
+            public BiConsumer<Stack, Project> accumulator() {
+                return Stack::push;
+            }
+
+            @Override
+            // use when it is parallelStream
+            public BinaryOperator<Stack> combiner() {
+                return (left, right) -> {
+                    right.addAll(left);
+                    return right;
+                };
+            }
+
+            @Override
+            public Function finisher() {
+                return a -> a;
+            }
+
+            @Override
+            public Set characteristics() {
+                return Collections.unmodifiableSet(EnumSet.of(Collector.Characteristics.IDENTITY_FINISH));
+            }
+            
+        });
+        
+        System.out.println("Custom stack projects:\n" + projectStacks + "\n");
 	}
 	
 }
