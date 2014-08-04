@@ -37,7 +37,7 @@ public class StreamTestWang {
                             { "3", "Third Project", "Google" }
                     };
 
-//	@Test
+	@Test
 	public void testSimpleStream(){
         
 	    
@@ -84,7 +84,7 @@ public class StreamTestWang {
         
 	}
 	
-//	@Test
+	@Test
     public void testSimpleColletor(){
 	    //To List
         List<Project> projects = Stream.of(projectNamesArray).map(data -> new Project(data[0], data[1], data[2])).collect(Collectors.toList());
