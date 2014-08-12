@@ -1,4 +1,4 @@
-package com.britesnow.j8.test;
+package com.britesnow.j8.learning;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -24,7 +24,7 @@ import com.britesnow.j8.Project;
 /**
  * <p></p>
  */
-public class StreamTestWang {
+public class StreamTest {
     
     static String[][] projectNamesArray = {
                             { "1", "First Project", "Cisco" },

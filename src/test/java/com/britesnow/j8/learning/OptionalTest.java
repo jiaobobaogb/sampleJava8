@@ -1,4 +1,4 @@
-package com.britesnow.j8.test;
+package com.britesnow.j8.learning;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.junit.Test;
  * <p>
  * </p>
  */
-public class OptionalTestWang {
+public class OptionalTest {
 
     @Test
     public void simpleOptional() {

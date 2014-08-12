@@ -1,4 +1,4 @@
-package com.britesnow.j8.test;
+package com.britesnow.j8.learning;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -23,9 +23,11 @@ public class DateTest {
         System.out.println("millsecs: "+ clock.millis() + " = " + System.currentTimeMillis());
         System.out.println("TimeZone: " + clock.getZone());
         
+        // Get Default Zone
         clock = Clock.systemUTC();
         System.out.println("TimeZone: " + clock.getZone());
         
+        // Get Spe Zone
         clock = Clock.system(ZoneId.of("Asia/Harbin"));
         System.out.println("TimeZone: " + clock.getZone());
         
@@ -46,6 +48,7 @@ public class DateTest {
         LocalTime now2 = LocalTime.now(ZoneId.systemDefault());
         System.out.println("now1:" + now1);
         System.out.println("now2:" + now2);
+        // compare both times
         System.out.println("compare: now1 before now2 "+ now1.isBefore(now2));
         System.out.println("secs between: " + ChronoUnit.SECONDS.between(now1, now2));
         System.out.println("mill secs between: " + ChronoUnit.MILLIS.between(now1, now2));

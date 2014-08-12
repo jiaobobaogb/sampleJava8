@@ -1,4 +1,4 @@
-package com.britesnow.j8.test;
+package com.britesnow.j8.learning;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;

@@ -1,4 +1,4 @@
-package com.britesnow.j8.test;
+package com.britesnow.j8.learning;
 
 import java.io.File;
 import java.io.FileReader;
@@ -11,7 +11,7 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 import org.junit.Test;
 
-public class JSTestWang {
+public class JSTest {
 
     public void testJS() throws Exception {
         ScriptEngineManager engineManager = new ScriptEngineManager();
