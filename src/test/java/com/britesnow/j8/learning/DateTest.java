@@ -62,16 +62,22 @@ public class DateTest {
         now2 = now2.plusDays(2);
         System.out.println("now1:" + now1);
         System.out.println("now2:" + now2);
+        
+        //get month
         System.out.println("month:" + now2.getMonth());
         System.out.println("month value:" + now2.getMonthValue());
+        //compare date
         System.out.println("compare: now1 after now2 "+ now1.isAfter(now2));
         System.out.println("days between: " + ChronoUnit.DAYS.between(now1, now2));
+        //test if it is leap
         System.out.println("isLeap year: " + now2.isLeapYear());
         now2 = now2.plusYears(2);
         System.out.println("isLeap year: " + now2.isLeapYear());
-        System.out.println("Date time: " + now2.atStartOfDay());
+        // get start of day
+        System.out.println("Date time: " + now1.atStartOfDay());
         
         Instant instant = now1.atTime(LocalTime.of(0, 0, 0)).atZone(ZoneId.systemDefault()).toInstant();
+        // change to java.util.Date
         System.out.println("instant: " + instant);
         System.out.println("Date: " + Date.from(instant));
         

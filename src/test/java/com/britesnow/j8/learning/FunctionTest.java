@@ -21,6 +21,7 @@ public class FunctionTest {
 	    Function<Integer, Integer> adds = x -> x + 2;
 	    Function<Integer, Integer> times = x -> x * 3;
 	    
+	    // test simple AndThen
 	    System.out.println("Test (adds) => 8 + 2 = " + adds.apply(8));
 	    System.out.println("Test (times) => 8 * 3 = " + times.apply(8));
 	    System.out.println("Test (adds and times) => (8 + 2) * 3 = " + adds.andThen(times).apply(8));
@@ -32,6 +33,7 @@ public class FunctionTest {
         Function<Integer, Integer> adds = x -> x + 2;
         Function<Integer, Integer> times = x -> x * 3;
         
+        // test simple compose
         System.out.println("Test (adds) => 8 + 2 = " + adds.apply(8));
         System.out.println("Test (times) => 8 * 3 = " + times.apply(8));
         System.out.println("Test (adds and times) => (8 * 3) + 2 = " + adds.compose(times).apply(8));
@@ -45,6 +47,7 @@ public class FunctionTest {
 	    Function<Float, Float> divide = x -> x / 4;
 	    Function<Float, Float> reduce = x -> x - 5;
 	    
+	    // test complicate compose and andThen
 	    System.out.println("Test andThen (adds and times) => (8 - 5) / 4 * 3 + 2 = " + adds.compose(times).compose(divide).compose(reduce).apply(8f));
 	    System.out.println("Test andThen (adds and times) => (8 + 2) * 3 / 4 - 5 = " + adds.andThen(times).andThen(divide).andThen(reduce).apply(8f));
 	    System.out.println("Test andThen (adds and times) => ((8 * 3) + 2) / 4 - 5 = " + adds.compose(times).andThen(divide).andThen(reduce).apply(8f));
@@ -56,6 +59,8 @@ public class FunctionTest {
     public void testConsumer(){
 	    Consumer<Integer> consumer = System.out::println;
 	    System.out.println("Consumer begin");
+	    
+	    //test Consumer Function
 	    consumer.accept(1);
 	    Consumer<Integer> consumer1 = t -> {
 	        System.out.println("Go to andThen");
@@ -70,6 +75,8 @@ public class FunctionTest {
 	    System.out.println("Predicate begin");
 	    System.out.println(predicate.test(1));
 	    Predicate<Integer> predicate1 = t -> { return t % 2 == 0 ? true : false;};
+	    
+	    // Test Predicate function api
 	    System.out.println(predicate.negate().test(3));
 	    System.out.println(predicate.and(predicate1).test(1));
 	    System.out.println(predicate.or(predicate1).test(1));
@@ -82,12 +89,14 @@ public class FunctionTest {
 	    Supplier<Integer> supplier = () -> { return 1;};
 	    Supplier<Integer> supplier1 = () -> { return 2;};
 	    System.out.println("Supplier begin");
+	    // Test Supplier function 
 	    System.out.println(supplier.get() + supplier1.get());
 	}
 	
 	@Test
 	public void testBinaryOperator(){
 	    BinaryOperator<Integer> binaryOperator = (a, b) -> { return a + b;};
+	    // Test BinaryOperator function 
 	    System.out.println("BinaryOperator begin");
 	    System.out.println(binaryOperator.apply(1, 2));
 	}
@@ -96,6 +105,7 @@ public class FunctionTest {
 	public void testTwoParams(){
 	    BiFunction<Integer, String, Boolean> biFunction = (a, b) -> { return a + Integer.valueOf(b) > 0 ? true : false;};
 	    System.out.println("BiFunction begin");
+	    // Test BiFunction function 
 	    System.out.println(biFunction.apply(-1, "2"));
 	    
 	    BiConsumer<Integer, String> biConsumer = (a, b) -> {System.out.println(a + b);};

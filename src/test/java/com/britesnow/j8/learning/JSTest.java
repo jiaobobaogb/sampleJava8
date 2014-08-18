@@ -36,10 +36,12 @@ public class JSTest {
         testFunc.call(null);
 
         Object jsDate = engine.eval("new Date()");
+        // Test js object convert to java Object 
         System.out.println(jsDate);
 
         Invocable invocable = (Invocable) engine;
         invocable.invokeMethod(jsDate, "setDate", 1);
+        // java call js methods 
         System.out.println(jsDate);
         invocable.invokeFunction("test");
 
@@ -50,6 +52,7 @@ public class JSTest {
         ScriptEngineManager engineManager = new ScriptEngineManager();
         ScriptEngine engine = engineManager.getEngineByName("nashorn");
         File javaExtendJS = new File("src/test/resources/jstest/sample/javaextend.js");
+        // convert java type to js object
         engine.eval(new FileReader(javaExtendJS));
     }
 
@@ -57,6 +60,7 @@ public class JSTest {
         ScriptEngineManager engineManager = new ScriptEngineManager();
         ScriptEngine engine = engineManager.getEngineByName("nashorn");
         File streamJS = new File("src/test/resources/jstest/sample/stream.js");
+        // convert java stream type to js object
         engine.eval(new FileReader(streamJS));
     }
 }
