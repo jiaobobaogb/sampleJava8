@@ -34,5 +34,9 @@ public class Teacher {
     public String getSex(){
         return sex;
     }
+    @Override
+    public String toString(){
+        return id+"  "+name+"  "+sex ;
+    }
 
 }
